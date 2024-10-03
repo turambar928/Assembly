@@ -1,0 +1,79 @@
+#include<iostream>  // 包含输入输出流库
+
+using namespace std;  // 使用标准命名空间
+
+int main() {  // 主函数开始
+    // 设置栈帧
+    00FD1E80  push        ebp  // 将基指针压入栈
+    00FD1E81  mov         ebp, esp  // 将当前栈顶指针赋值给基指针
+    00FD1E83  sub         esp, 0D0h  // 为局部变量分配208字节的空间
+    00FD1E89  push        ebx  // 压入ebx寄存器
+    00FD1E8A  push        esi  // 压入esi寄存器
+    00FD1E8B  push        edi  // 压入edi寄存器
+    00FD1E8C  lea         edi, [ebp-10h]  // 将edi指向局部变量区
+    00FD1E8F  mov         ecx, 4  // 将4放入ecx寄存器
+    00FD1E94  mov         eax, 0CCCCCCCCh  // 将0xCCCCCCCC放入eax寄存器（未初始化内存标记）
+    00FD1E99  rep stos    dword ptr es:[edi]  // 将0xCCCCCCCC填充到edi指向的内存（初始化）
+    00FD1E9B  mov         eax, dword ptr [__security_cookie (0FDC000h)]  // 获取安全cookie
+    00FD1EA0  xor         eax, ebp  // 将eax与基指针异或
+    00FD1EA2  mov         dword ptr [ebp-4], eax  // 将结果存储在栈上以备后用
+    00FD1EA5  mov         ecx, offset _2A58B25D_demo@cpp (0FDF066h)  // 设置ecx为调试信息的地址
+    00FD1EAA  call        @__CheckForDebuggerJustMyCode@4 (0FD1398h)  // 检查是否在调试中
+
+    // 输出提示信息
+    cout << "input number (1-100) :";  // 提示用户输入数字
+    00FD1EAF  push        offset string "input number (1-100) :" (0FD9B30h)  // 将字符串地址压入栈
+    00FD1EB4  mov         eax, dword ptr [__imp_std::cout (0FDD0E0h)]  // 获取cout对象的地址
+    00FD1EB9  push        eax  // 压入cout对象
+    00FD1EBA  call        std::operator<<<std::char_traits<char> > (0FD11B3h)  // 调用<<运算符输出字符串
+    00FD1EBF  add         esp, 8  // 清理栈
+
+    int num;  // 声明一个整数变量num
+    cin >> num;  // 从输入中读取一个整数到num
+    00FD1EC2  mov         esi, esp  // 保存当前栈顶指针
+    00FD1EC4  lea         eax, [num]  // 获取num的地址
+    00FD1EC7  push        eax  // 压入num的地址
+    00FD1EC8  mov         ecx, dword ptr [__imp_std::cin (0FDD098h)]  // 获取cin对象的地址
+    00FD1ECE  call        dword ptr [__imp_std::basic_istream<char,std::char_traits<char> >::operator>> (0FDD09Ch)]  // 调用>>运算符读取输入
+    00FD1ED4  cmp         esi, esp  // 比较栈顶指针是否有变化
+    00FD1ED6  call        __RTC_CheckEsp (0FD129Eh)  // 检查栈平衡
+
+    // 输出读取的数字
+    cout << num;  // 输出num的值
+    00FD1EDB  mov         esi, esp  // 保存当前栈顶指针
+    00FD1EDD  mov         eax, dword ptr [num]  // 将num的值加载到eax
+    00FD1EE0  push        eax  // 压入num的值
+    00FD1EE1  mov         ecx, dword ptr [__imp_std::cout (0FDD0E0h)]  // 获取cout对象的地址
+    00FD1EE7  call        dword ptr [__imp_std::basic_ostream<char,std::char_traits<char> >::operator<< (0FDD0A8h)]  // 调用<<运算符输出num的值
+    00FD1EED  cmp         esi, esp  // 比较栈顶指针是否有变化
+    00FD1EEF  call        __RTC_CheckEsp (0FD129Eh)  // 检查栈平衡
+
+    return 0;  // 返回0表示程序正常结束
+    00FD1EF4  xor         eax, eax  // 清零eax寄存器
+    00FD1EF6  push        edx  // 压入edx寄存器
+    00FD1EF7  mov         ecx, ebp  // 将基指针存入ecx
+    00FD1EF9  push        eax  // 压入eax（值为0）
+    00FD1EFA  lea         edx, ds:[0FD1F28h]  // 将edx指向某个地址
+    00FD1F00  call        @_RTC_CheckStackVars@8 (0FD1235h)  // 检查栈中的变量
+    00FD1F05  pop         eax  // 弹出eax寄存器
+    00FD1F06  pop         edx  // 弹出edx寄存器
+    00FD1F07  pop         edi  // 弹出edi寄存器
+    00FD1F08  pop         esi  // 弹出esi寄存器
+    00FD1F09  pop         ebx  // 弹出ebx寄存器
+    00FD1F0A  mov         ecx, dword ptr [ebp-4]  // 将之前保存的cookie加载到ecx
+    00FD1F0D  xor         ecx, ebp  // 将ecx与基指针异或
+    00FD1F0F  call        @__security_check_cookie@4 (0FD1186h)  // 检查安全cookie
+    00FD1F14  add         esp, 0D0h  // 释放局部变量的栈空间
+    00FD1F1A  cmp         ebp, esp  // 比较基指针和栈指针
+    00FD1F1C  call        __RTC_CheckEsp (0FD129Eh)  // 检查栈平衡
+    00FD1F21  mov         esp, ebp  // 恢复栈指针
+    00FD1F23  pop         ebp  // 弹出基指针
+    00FD1F24  ret  // 返回到调用函数
+    00FD1F25  nop         dword ptr [eax]  // 空操作（NOP）
+    00FD1F28  add         dword ptr [eax], eax  // 对某个内存地址的值进行加法（具体意义不明）
+    00FD1F2A  add         byte ptr [eax], al  // 对某个内存地址的字节进行加法（具体意义不明）
+    00FD1F2C  xor         byte ptr [edi], bl  // 对edi指向的内存进行异或操作（具体意义不明）
+    00FD1F2E  std  // 设置方向标志（具体意义不明）
+    00FD1F2F  add         ah, dh  // 对ah和dh进行加法（具体意义不明）
+    00FD1F31  ?? ??????  // 未知指令
+    00FD1F32  ?? ??????  // 未知指令

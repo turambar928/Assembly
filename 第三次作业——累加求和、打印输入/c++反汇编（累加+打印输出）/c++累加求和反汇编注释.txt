@@ -1,0 +1,60 @@
+#include<iostream>  // 包含输入输出流库
+
+using namespace std;  // 使用标准命名空间
+
+int main() {  // 主函数开始
+    // 设置栈帧
+    005E1F40  push        ebp  // 将基指针压入栈
+    005E1F41  mov         ebp, esp  // 将当前栈顶指针赋值给基指针
+    005E1F43  sub         esp, 0D8h  // 为局部变量分配216字节的空间
+    005E1F49  push        ebx  // 压入ebx寄存器
+    005E1F4A  push        esi  // 压入esi寄存器
+    005E1F4B  push        edi  // 压入edi寄存器
+    005E1F4C  lea         edi, [ebp-18h]  // 将edi指向局部变量区域
+    005E1F4F  mov         ecx, 6  // 将6放入ecx寄存器
+    005E1F54  mov         eax, 0CCCCCCCCh  // 将0xCCCCCCCC放入eax（表示未初始化的内存）
+    005E1F59  rep stos    dword ptr es:[edi]  // 用0xCCCCCCCC填充edi指向的内存（初始化）
+
+    005E1F5B  mov         ecx, offset _2A58B25D_demo@cpp (05EF066h)  // 设置ecx为调试信息的地址
+    005E1F60  call        @__CheckForDebuggerJustMyCode@4 (05E1398h)  // 检查是否在调试中
+
+    int sum = 0;  // 初始化sum变量为0
+    005E1F65  mov         dword ptr [sum], 0  // 将0存入sum
+
+    for (int i = 1; i <= 100; i++) {  // 从1到100循环
+    005E1F6C  mov         dword ptr [ebp-14h], 1  // 初始化循环变量i为1
+    005E1F73  jmp         __$EncStackInitStart+32h (05E1F7Eh)  // 跳转到循环体
+    005E1F75  mov         eax, dword ptr [ebp-14h]  // 获取循环变量i的值
+    005E1F78  add         eax, 1  // i自增1
+    005E1F7B  mov         dword ptr [ebp-14h], eax  // 更新i的值
+    005E1F7E  cmp         dword ptr [ebp-14h], 64h  // 比较i和100
+    005E1F82  jg          __$EncStackInitStart+43h (05E1F8Fh)  // 如果i大于100，跳出循环
+
+        sum += i;  // 将i的值加到sum上
+    005E1F84  mov         eax, dword ptr [sum]  // 加载sum的值到eax
+    005E1F87  add         eax, dword ptr [ebp-14h]  // 将i加到eax中
+    005E1F8A  mov         dword ptr [sum], eax  // 更新sum的值
+    }  // 循环结束
+    005E1F8D  jmp         __$EncStackInitStart+29h (05E1F75h)  // 跳回循环开始
+
+    cout << sum;  // 输出sum的值
+    005E1F8F  mov         esi, esp  // 保存当前栈顶指针
+    005E1F91  mov         eax, dword ptr [sum]  // 获取sum的值
+    005E1F94  push        eax  // 压入sum的值
+    005E1F95  mov         ecx, dword ptr [__imp_std::cout (05ED0E0h)]  // 获取cout对象的地址
+    005E1F9B  call        dword ptr [__imp_std::basic_ostream<char,std::char_traits<char> >::operator<< (05ED0A8h)]  // 调用<<运算符输出sum
+    005E1FA1  cmp         esi, esp  // 比较栈顶指针是否有变化
+    005E1FA3  call        __RTC_CheckEsp (05E129Eh)  // 检查栈平衡
+
+    return 0;  // 返回0表示程序正常结束
+    005E1FA8  xor         eax, eax  // 清零eax寄存器
+}  // 主函数结束
+005E1FAA  pop         edi  // 恢复edi寄存器
+005E1FAB  pop         esi  // 恢复esi寄存器
+005E1FAC  pop         ebx  // 恢复ebx寄存器
+005E1FAD  add         esp, 0D8h  // 释放局部变量的栈空间
+005E1FB3  cmp         ebp, esp  // 比较基指针和栈指针
+005E1FB5  call        __RTC_CheckEsp (05E129Eh)  // 检查栈平衡
+005E1FBA  mov         esp, ebp  // 恢复栈指针
+005E1FBC  pop         ebp  // 恢复基指针
+005E1FBD  ret  // 返回到调用函数
